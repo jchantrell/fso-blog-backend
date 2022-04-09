@@ -3,15 +3,15 @@ GET http://localhost:3003/api/blogs
 
 ###
 
-GET http://localhost:3003/api/blogs/x
+GET http://localhost:3003/api/blogs/62513b324ac840eee4d08b04
 
 ###
 
-GET http://localhost:3003/api/blogs/x
+GET http://localhost:3003/api/blogs/62513b324ac840eee4d08b03
 
 ###
 
-DELETE http://localhost:3003/api/blogs/x
+DELETE http://localhost:3003/api/blogs/62513b324ac840eee4d08b04
 
 ###
 
@@ -34,4 +34,15 @@ content-type: application/json
     "title": "1",
     "author": "1",
     "url": "1"
+}
+
+### 
+PUT http://localhost:3003/api/blogs/6250cccf9d8142e0c4695541
+content-type: application/json
+
+{
+    "title": "1",
+    "author": "2",
+    "url": "3",
+    "likes":  4
 }

@@ -4,6 +4,7 @@ const helper = require('./testHelper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const { initial } = require('lodash')
 
 
 beforeEach(async () => {
@@ -57,21 +58,6 @@ test('a valid blog can be added', async () => {
     expect(title).toContain('aaad')
 })
 
-test.skip('blog without content is not added', async () => {
-    const newBlog = {
-        important: true
-    }
-
-    await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(400)
-
-    const blogsAtEnd = await helper.blogsInDb()
-
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
-})
-
 test('a specific blog can be viewed', async () => {
     const blogsAtStart = await helper.blogsInDb()
 
@@ -85,25 +71,6 @@ test('a specific blog can be viewed', async () => {
     const processedBlogToView = JSON.parse(JSON.stringify(blogToView))
 
     expect(resultBlog.body).toEqual(processedBlogToView)
-})
-
-test('a blog can be deleted', async () => {
-    const blogsAtStart = await helper.blogsInDb()
-    const blogToDelete = blogsAtStart[0]
-
-    await api
-        .delete(`/api/blogs/${blogToDelete.id}`)
-        .expect(204)
-
-    const blogsAtEnd = await helper.blogsInDb()
-
-    expect(blogsAtEnd).toHaveLength(
-        helper.initialBlogs.length - 1
-    )
-
-    const titles = blogsAtEnd.map(r => r.title)
-
-    expect(titles).not.toContain(blogToDelete.title)
 })
 
 test('id is the proper json format', async () => {
@@ -161,6 +128,50 @@ test('if url is missing from post request, it returns bad request', async () => 
 
     expect(request.status).toEqual(400)
 })
+
+test('a blog can be deleted', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(
+        helper.initialBlogs.length - 1
+    )
+
+    const blog = blogsAtEnd.map(r => r.id)
+
+    expect(blog).not.toContain(blogToDelete.id)
+})
+
+test('a blog can be updated', async () => {
+    const blog = {
+        title: 'initial',
+        author: 'initial',
+        url: 'initial',
+        likes: 5
+    }
+    const updateLikes = {
+        likes: 7
+    }
+
+    const initialBlog = await api
+        .post('/api/blogs')
+        .send(blog)
+        .expect(200)
+
+    const updatedBlog = await api
+        .put(`/api/blogs/${initialBlog.body.id}`)
+        .send(updateLikes)
+        .expect(200)
+
+    expect(updatedBlog.body.likes).toEqual(7)
+})
+
 
 afterAll(() => {
     mongoose.connection.close()
