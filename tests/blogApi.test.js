@@ -106,6 +106,18 @@ test('a blog can be deleted', async () => {
     expect(titles).not.toContain(blogToDelete.title)
 })
 
+test('id is the proper json format', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToView = blogsAtStart[0]
+
+    const resultBlog = await api
+        .get(`/api/blogs/${blogToView.id}`)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    expect(resultBlog.body.id).toBeDefined()
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
