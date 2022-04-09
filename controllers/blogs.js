@@ -9,7 +9,7 @@ blogsRouter.get('/', async (request, response) => {
         })
 })
 
-blogsRouter.get('/:id', async (request, response, next) => {
+blogsRouter.get('/:id', async (request, response) => {
     const blog = await Blog.findById(request.params.id)
     if (blog) {
         response.json(blog)
@@ -20,7 +20,6 @@ blogsRouter.get('/:id', async (request, response, next) => {
 
 blogsRouter.post('/', async (request, response) => {
     const blog = new Blog(request.body)
-
     const savedBlog = await blog.save()
     response.json(savedBlog)
 })

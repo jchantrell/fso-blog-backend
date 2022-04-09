@@ -118,6 +118,22 @@ test('id is the proper json format', async () => {
     expect(resultBlog.body.id).toBeDefined()
 })
 
+test('if likes on a blog post request is empty, it defaults to zero', async () => {
+    const blog = {
+        title: 'nolikes',
+        author: 'dsfd',
+        url: 'url45',
+    }
+
+    const request = await api
+        .post('/api/blogs')
+        .send(blog)
+        .expect(200)
+
+    expect(request.body.likes).toBeDefined(),
+    expect(request.body.likes).toEqual(0)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
