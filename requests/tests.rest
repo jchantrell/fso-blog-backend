@@ -3,15 +3,15 @@ GET http://localhost:3003/api/blogs
 
 ###
 
-GET http://localhost:3003/api/blogs/3
+GET http://localhost:3003/api/blogs/x
 
 ###
 
-GET http://localhost:3003/api/blogs/99
+GET http://localhost:3003/api/blogs/x
 
 ###
 
-DELETE http://localhost:3003/api/blogs/3
+DELETE http://localhost:3003/api/blogs/x
 
 ###
 
