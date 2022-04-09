@@ -1,3 +1,4 @@
+const { describe } = require('eslint/lib/rule-tester/rule-tester')
 const listHelper = require('../utils/listHelper')
 
 test('dummy returns one', () => {
@@ -47,5 +48,46 @@ describe('total likes', () => {
     test('when list has multiple blogs, equals the likes of all', () => {
         const result = listHelper.totalLikes(listWithMultipleBlogs)
         expect(result).toBe(10)
+    })
+})
+
+describe('favourite blog', () => {
+    const blogs = [
+        {
+            _id: '5a422aa71b54a676234d17f8',
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra',
+            url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+            likes: 3,
+            __v: 0
+        },
+        {
+            _id: '5a422aa71b54a676234d17f6',
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra',
+            url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+            likes: 5,
+            __v: 0
+        },
+        {
+            _id: '5a422aa71b54a676234d17f6',
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra',
+            url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+            likes: 10,
+            __v: 0
+        }]
+
+    test('if blog has the most likes, it should be a favourite', () => {
+        const result = listHelper.favouriteBlog(blogs)
+        expect(result).toEqual({
+            _id: '5a422aa71b54a676234d17f6',
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra',
+            url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+            likes: 10,
+            __v: 0
+        }
+        )
     })
 })
