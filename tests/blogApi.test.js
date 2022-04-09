@@ -134,6 +134,34 @@ test('if likes on a blog post request is empty, it defaults to zero', async () =
     expect(request.body.likes).toEqual(0)
 })
 
+test('if title is missing from post request, it returns bad request', async () => {
+    const blog = {
+        author: 'dsfd',
+        url: 'url45',
+    }
+
+    const request = await api
+        .post('/api/blogs')
+        .send(blog)
+        .expect(400)
+
+    expect(request.status).toEqual(400)
+})
+
+test('if url is missing from post request, it returns bad request', async () => {
+    const blog = {
+        title: 'dsfd',
+        author: '123',
+    }
+
+    const request = await api
+        .post('/api/blogs')
+        .send(blog)
+        .expect(400)
+
+    expect(request.status).toEqual(400)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
