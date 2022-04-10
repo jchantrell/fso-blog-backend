@@ -5,6 +5,18 @@ const User = require('../models/user')
 usersRouter.post('/', async (request, response) => {
     const { username, name, password } = request.body
 
+    if (password.length < 3){
+        return response.status(400).json({
+            error: 'password must be more than 3 characters'
+        })
+    }
+
+    if (username.length < 3){
+        return response.status(400).json({
+            error: 'username must be more than 3 characters'
+        })
+    }
+
     const existingUser = await User.findOne({ username })
     if (existingUser) {
         return response.status(400).json({

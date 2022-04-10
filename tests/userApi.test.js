@@ -4,6 +4,7 @@ const app = require('../app')
 const api = supertest(app)
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
+const { describe } = require('eslint/lib/rule-tester/rule-tester')
 
 
 describe('when there is initially one user in db', () => {
@@ -20,9 +21,9 @@ describe('when there is initially one user in db', () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
-            username: 'mluukkai',
-            name: 'Matti Luukkainen',
-            password: 'salainen',
+            username: '5char',
+            name: 'a user',
+            password: 'random',
         }
 
         await api
@@ -36,5 +37,62 @@ describe('when there is initially one user in db', () => {
 
         const usernames = usersAtEnd.map(u => u.username)
         expect(usernames).toContain(newUser.username)
+    })
+})
+
+describe('api responds properly when user requests are sent', () => {
+    test('username with less than 3 chars returns bad response', async () => {
+        const newUser = {
+            username: '12',
+            name: 'user',
+            password: '123',
+        }
+
+        const request = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+
+        expect(request.status).toEqual(400)
+    })
+
+    test('password with less than 3 chars returns bad response', async () => {
+        const newUser = {
+            username: '123',
+            name: 'user',
+            password: '12',
+        }
+
+        const request = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+
+        expect(request.status).toEqual(400)
+    })
+
+    test('username must be unique', async () => {
+        const firstUser = {
+            username: '123',
+            name: 'user',
+            password: '12',
+        }
+
+        const secondUser = {
+            username: '123',
+            name: 'user',
+            password: '12',
+        }
+
+        await api
+            .post('/api/users')
+            .send(firstUser)
+
+        const secondRequest = await api
+            .post('/api/users')
+            .send(secondUser)
+            .expect(400)
+
+        expect(secondRequest.status).toEqual(400)
     })
 })
