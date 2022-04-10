@@ -1,10 +1,9 @@
 const supertest = require('supertest')
 const mongoose = require('mongoose')
-const helper = require('./testHelper')
+const helper = require('../utils/blogTestHelper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-const { initial } = require('lodash')
 
 
 beforeEach(async () => {

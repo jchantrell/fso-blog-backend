@@ -1,11 +1,10 @@
-
-const listHelper = require('../utils/listHelper')
+const helper = require('../utils/blogTestHelper')
 
 
 test('dummy returns one', () => {
     const blogs = []
 
-    const result = listHelper.dummy(blogs)
+    const result = helper.dummy(blogs)
     expect(result).toBe(1)
 })
 
@@ -39,15 +38,15 @@ describe('total likes', () => {
         }]
 
     test('when list has zero blogs return zero', () => {
-        const result = listHelper.totalLikes(listWithZeroBlogs)
+        const result = helper.totalLikes(listWithZeroBlogs)
         expect(result).toBe(0)
     })
     test('when list has only one blog, equals the likes of that', () => {
-        const result = listHelper.totalLikes(listWithOneBlog)
+        const result = helper.totalLikes(listWithOneBlog)
         expect(result).toBe(5)
     })
     test('when list has multiple blogs, equals the likes of all', () => {
-        const result = listHelper.totalLikes(listWithMultipleBlogs)
+        const result = helper.totalLikes(listWithMultipleBlogs)
         expect(result).toBe(10)
     })
 })
@@ -80,7 +79,7 @@ describe('favourite blog', () => {
         }]
 
     test('if blog has the most likes, it should be a favourite', () => {
-        const result = listHelper.favouriteBlog(blogs)
+        const result = helper.favouriteBlog(blogs)
         expect(result).toEqual({
             _id: '5a422aa71b54a676234d17f6',
             title: 'Go To Statement Considered Harmful',
@@ -129,11 +128,11 @@ describe('author who has the most blog entries', () => {
             __v: 0
         }]
     test('if there are no blogs, there should be top poster', () => {
-        const result = listHelper.mostBlogs(noBlogs)
+        const result = helper.mostBlogs(noBlogs)
         expect(result).toEqual({})
     })
     test('if author has the most blog entries, they should be the top poster', () => {
-        const result = listHelper.mostBlogs(multipleBlogs)
+        const result = helper.mostBlogs(multipleBlogs)
         expect(result).toEqual({ author: 'Sally', blogs: 2 })
     })
 })
@@ -174,11 +173,11 @@ describe('author who has the most likes overall', () => {
             __v: 0
         }]
     test('if there are no blogs, there should be no top author', () => {
-        const result = listHelper.mostLikes(noBlogs)
+        const result = helper.mostLikes(noBlogs)
         expect(result).toEqual({})
     })
     test('if author has the most likes overall, they should be returned', () => {
-        const result = listHelper.mostLikes(multipleBlogs)
+        const result = helper.mostLikes(multipleBlogs)
         expect(result).toEqual({ author: 'Sally', likes: 13 })
     })
 })

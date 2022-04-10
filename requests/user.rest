@@ -1,0 +1,46 @@
+GET http://localhost:3003/api/users
+
+
+###
+
+GET http://localhost:3003/api/blogs/x
+
+###
+
+GET http://localhost:3003/api/blogs/x
+
+###
+
+DELETE http://localhost:3003/api/blogs/6252856e036312ab4e1adf1d
+
+###
+
+POST http://localhost:3003/api/users
+content-type: application/json
+
+{
+    "username": "1",
+    "name": "1",
+    "password": "1"
+}
+
+###
+
+POST http://localhost:3003/api/users
+content-type: application/json
+
+{
+    "title": "1",
+    "author": "1",
+}
+
+### 
+PUT http://localhost:3003/api/users/x
+content-type: application/json
+
+{
+    "title": "1",
+    "author": "2",
+    "url": "3",
+    "likes":  4
+}

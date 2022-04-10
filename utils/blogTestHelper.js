@@ -1,6 +1,5 @@
-const { get } = require('lodash')
 const lodash = require('lodash')
-
+const Blog = require('../models/blog')
 
 const dummy = (blogs) => {
     return 1
@@ -73,10 +72,39 @@ const mostLikes = (blogs) => {
     return topAuthor
 }
 
+const initialBlogs = [
+    {
+        title: 'abc',
+        author: 'a',
+        url: 'url1',
+        likes: '3'
+    },
+    {
+        title: 'asd',
+        author: 'b',
+        url: 'url2',
+        likes: '2'
+    },
+    {
+        title: 'dsf',
+        author: 'c',
+        url: 'url3',
+        likes: '6'
+    },
+]
+
+const blogsInDb = async () => {
+    const blogs = await Blog.find({})
+    return blogs.map(note => note.toJSON())
+}
+
+
 module.exports = {
     dummy,
     totalLikes,
     favouriteBlog,
     mostBlogs,
-    mostLikes
+    mostLikes,
+    initialBlogs,
+    blogsInDb
 }
