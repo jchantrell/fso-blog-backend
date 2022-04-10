@@ -17,6 +17,7 @@ DELETE http://localhost:3003/api/blogs/62513b324ac840eee4d08b04
 
 POST http://localhost:3003/api/blogs
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjMzMyIsImlkIjoiNjI1Mjk2NjVlMTI0YmI1MzYyYjM3NGZlIiwiaWF0IjoxNjQ5NTgwMjk2fQ.ez6R7Gr6v5LdSkE_llzhUJ8NaVh9XXVtxdtz0GaKoHQ
 
 {
     "title": "2",
