@@ -4,11 +4,14 @@ const helper = require('../utils/blogTestHelper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-
+let token = ''
 
 beforeEach(async () => {
+    let testUser = await api
+        .post('/api/login')
+        .send({ username: '5char', password: 'random' })
+    token = testUser._body.token
     await Blog.deleteMany({})
-
     for (let blog of helper.initialBlogs) {
         let blogObject = new Blog(blog)
         await blogObject.save()
@@ -46,6 +49,7 @@ test('a valid blog can be added', async () => {
     await api
         .post('/api/blogs')
         .send(newBlog)
+        .set('Authorization', `bearer ${token}`)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
@@ -93,6 +97,7 @@ test('if likes on a blog post request is empty, it defaults to zero', async () =
 
     const request = await api
         .post('/api/blogs')
+        .set('Authorization', `bearer ${token}`)
         .send(blog)
         .expect(200)
 
@@ -108,6 +113,7 @@ test('if title is missing from post request, it returns bad request', async () =
 
     const request = await api
         .post('/api/blogs')
+        .set('Authorization', `bearer ${token}`)
         .send(blog)
         .expect(400)
 
@@ -122,6 +128,7 @@ test('if url is missing from post request, it returns bad request', async () => 
 
     const request = await api
         .post('/api/blogs')
+        .set('Authorization', `bearer ${token}`)
         .send(blog)
         .expect(400)
 
@@ -129,22 +136,37 @@ test('if url is missing from post request, it returns bad request', async () => 
 })
 
 test('a blog can be deleted', async () => {
+    const blog = {
+        title: 'initial',
+        author: 'initial',
+        url: 'initial',
+        likes: 5
+    }
+
+    const blogToDelete = await api
+        .post('/api/blogs')
+        .send(blog)
+        .set('Authorization', `bearer ${token}`)
+        .expect(200)
+
     const blogsAtStart = await helper.blogsInDb()
-    const blogToDelete = blogsAtStart[0]
+
+    console.log(blogToDelete)
 
     await api
-        .delete(`/api/blogs/${blogToDelete.id}`)
+        .delete(`/api/blogs/${blogToDelete._body.id}`)
+        .set('Authorization', `bearer ${token}`)
         .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
 
     expect(blogsAtEnd).toHaveLength(
-        helper.initialBlogs.length - 1
+        blogsAtStart.length - 1
     )
 
-    const blog = blogsAtEnd.map(r => r.id)
+    const blogs = blogsAtEnd.map(r => r.id)
 
-    expect(blog).not.toContain(blogToDelete.id)
+    expect(blogs).not.toContain(blogToDelete.id)
 })
 
 test('a blog can be updated', async () => {
@@ -161,11 +183,13 @@ test('a blog can be updated', async () => {
     const initialBlog = await api
         .post('/api/blogs')
         .send(blog)
+        .set('Authorization', `bearer ${token}`)
         .expect(200)
 
     const updatedBlog = await api
         .put(`/api/blogs/${initialBlog.body.id}`)
         .send(updateLikes)
+        .set('Authorization', `bearer ${token}`)
         .expect(200)
 
     expect(updatedBlog.body.likes).toEqual(7)

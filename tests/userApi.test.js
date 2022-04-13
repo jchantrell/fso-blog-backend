@@ -4,7 +4,6 @@ const app = require('../app')
 const api = supertest(app)
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-const { describe } = require('eslint/lib/rule-tester/rule-tester')
 
 
 describe('when there is initially one user in db', () => {
