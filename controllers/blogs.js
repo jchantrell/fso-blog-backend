@@ -42,7 +42,8 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
         if (blog.user.toString() === user._id.toString()){
             await Blog.findByIdAndRemove(request.params.id)
             response.status(204).end()
-        }
+        } else response.status(401).json({
+            error:'object does not belong to current user' })
     }else {
         response.status(404).end()
     }

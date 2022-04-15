@@ -151,8 +151,6 @@ test('a blog can be deleted', async () => {
 
     const blogsAtStart = await helper.blogsInDb()
 
-    console.log(blogToDelete)
-
     await api
         .delete(`/api/blogs/${blogToDelete._body.id}`)
         .set('Authorization', `bearer ${token}`)
