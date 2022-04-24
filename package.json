@@ -7,7 +7,8 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
     "lint": "eslint .",
-    "test": "NODE_ENV=test jest --verbose --runInBand --forceExit"
+    "test": "NODE_ENV=test jest --verbose --runInBand --forceExit",
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "repository": {
     "type": "git",
@@ -33,8 +34,10 @@
   },
   "devDependencies": {
     "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
+    "prettier": "2.6.2",
     "supertest": "^6.2.2"
   },
   "jest": {

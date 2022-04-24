@@ -1,11 +1,15 @@
-require('dotenv').config()
+require("dotenv").config();
 
-const PORT = process.env.PORT
-const DB_URL = process.env.NODE_ENV === 'test'
+const PORT = process.env.PORT;
+const DB_URL =
+  process.env.NODE_ENV === "test"
     ? process.env.TEST_DB_URL
-    : process.env.DB_URL
+    : process.env.DB_URL;
+
+const TEST_HEADER = process.env.HEADER;
 
 module.exports = {
-    DB_URL,
-    PORT
-}
+  DB_URL,
+  PORT,
+  TEST_HEADER,
+};
