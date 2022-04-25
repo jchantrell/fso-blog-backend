@@ -19,12 +19,24 @@ Authorization: bearer x
 
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: bearer x
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjExMSIsImlkIjoiNjI2NWU1NjhhMjU5MDUwMDViNTBlZGYyIiwiaWF0IjoxNjUwODQ1MDY4fQ.SIBg1YqVAbZvchOEhX-FwrvSgZL-yAAIWQniTgn1tWg
+
 {
     "title": "2",
     "author": "2",
     "url": "2",
     "likes": "2"
+}
+
+###
+
+POST http://localhost:3003/api/blogs/6265e599a25905005b50edf6/comments
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjExMSIsImlkIjoiNjI1Mjk2NWFlMTI0YmI1MzYyYjM3NGY4IiwiaWF0IjoxNjUwNzg3ODg1fQ.JPvGoNx1HipmvEL76TfZXNKNDDl9fRwuJeQTUx5MyfY
+
+{
+    "content": "test comment",
+    "likes": 0
 }
 
 ###
